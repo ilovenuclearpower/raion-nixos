@@ -3,17 +3,10 @@
 # and in the NixOS manual (accessible by running 'nixos-help').
 { config, pkgs, ... }:
 {
-  nix = {
-    package = pkgs.nixVersions.stable;
-    extraOptions = ''
-      experimental-features = nix-command flakes
-    '';
-};
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./modules/nvidia.nix
-      ./modules/home-manager.nix
     ];
   
   # Bootloader.
@@ -21,11 +14,11 @@
   boot.loader.efi.canTouchEfiVariables = true;
   
   # Hyprland configuration
-  programs.hyprland = {
-    enable = true;
-    withUWSM = true;
-    xwayland.enable = true;
-  };
+#  programs.hyprland = {
+#    enable = true;
+#    withUWSM = true;
+#    xwayland.enable = true;
+#  };
 
 
   # Allow proprietary software
@@ -42,7 +35,28 @@
   
   # Enable networking
   networking.networkmanager.enable = true;
-  
+
+  services.xserver = { 
+    enable = true;
+    videoDrivers = ["nvidia"];
+    };
+
+  services.displayManager.sddm = {
+    enable = true;
+    wayland.enable = true;
+  };
+
+  services.flatpak.enable = true;
+
+  xdg.portal = {
+  enable = true;
+  extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  };
+
+  hardware.nvidia.modesetting.enable = true;
+  environment.sessionVariables.WLR_NO_HARDWARE_CURSORS = "1";
+
+ 
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
   
@@ -94,6 +108,9 @@
     networkmanagerapplet
     # Devtools installer
     mise
+    git
+    # menubar
+    tofi
   ];
   
   # Enable sound
