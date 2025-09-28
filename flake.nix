@@ -12,7 +12,7 @@
   outputs = { self, nixpkgs, home-manager, ... }@inputs: {
     nixosConfigurations = {
       # Replace "yourhostname" with your actual hostname
-      yourhostname = nixpkgs.lib.nixosSystem {
+      nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux"; # Change if needed (aarch64-linux for ARM)
         modules = [
           # Your existing configuration files
