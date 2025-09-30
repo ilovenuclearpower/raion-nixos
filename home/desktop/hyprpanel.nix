@@ -245,14 +245,18 @@
           truncate = "end";
         };
         
-        # Battery (if applicable)
-        battery = {
+        # CPU usage monitor
+        cpu = {
           showPercentage = true;
-          showTime = true;
-          color = "#00ff88";
-          lowBatteryColor = "#ff4040";
-          chargingColor = "#ffaa00";
+          showTemperature = true;
+          color = "#ff6600";
+          highUsageColor = "#ff0000";
+          backgroundColor = "rgba(255, 102, 0, 0.15)";
+          borderRadius = 2;
+          updateInterval = 1000;
         };
+
+        # Battery (if applicable)
       };
       
       # Enable animations for cyberpunk feel
