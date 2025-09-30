@@ -10,6 +10,9 @@
     # Don't assert notification daemons since we might use dunst
     dontAssertNotificationDaemons = true;
     
+    # Explicitly enable systemd service
+    systemd.enable = true;
+    
     # Maximalist cyberpunk configuration for wide monitors
     settings = {
       # Panel layout optimized for wide displays
@@ -172,14 +175,66 @@
           urgentBackgroundColor = "rgba(255, 0, 0, 0.2)";
         };
         
-        # Dashboard/launcher
+        # Dashboard/launcher - Custom NixOS-focused layout
         dashboard = {
-          color = "#00ffff";       # Cyan
+          color = "#ffffff";       # Clean white
           showIcon = true;
           iconTheme = "Papirus-Dark";
-          backgroundColor = "rgba(0, 255, 255, 0.15)";
+          backgroundColor = "rgba(0, 0, 0, 0.8)";
           borderRadius = 2;
-          iconSize = 20;
+          iconSize = 10;
+          # Custom dashboard entries for NixOS
+          entries = [
+            {
+              name = "Terminal";
+              icon = "utilities-terminal";
+              command = "kitty";
+            }
+            {
+              name = "Firefox";
+              icon = "firefox";
+              command = "firefox";
+            }
+            {
+              name = "File Manager";
+              icon = "folder";
+              command = "nautilus";
+            }
+            {
+              name = "Text Editor";
+              icon = "text-editor";
+              command = "nvim";
+            }
+            {
+              name = "System Monitor";
+              icon = "utilities-system-monitor";
+              command = "kitty -e btop";
+            }
+            {
+              name = "Audio Control";
+              icon = "multimedia-volume-control";
+              command = "pavucontrol";
+            }
+            {
+              name = "Network";
+              icon = "network-workgroup";
+              command = "nm-connection-editor";
+            }
+            {
+              name = "Settings";
+              icon = "preferences-system";
+              command = "nixos-rebuild switch --flake /etc/nixos";
+            }
+          ];
+          layout = {
+            columns = 8;
+            rows = 1;
+            padding = 5;
+            spacing = 3;
+          };
+          position = "top-left";
+          width = 640;
+          height = 60;
         };
         
         # Window title - utilize horizontal space
@@ -227,8 +282,21 @@
     };
   };
   
-  # Ensure HyprPanel starts with Hyprland
-  wayland.windowManager.hyprland.settings.exec-once = [
-    "sleep 2 && hyprpanel"  # Small delay to ensure other services start first
-  ];
+  # HyprPanel will be started automatically via systemd service
+  
+  # Ensure hyprpanel starts after Hyprland
+  systemd.user.services.hyprpanel = {
+    Unit = {
+      After = [ "hyprland-session.target" ];
+      Wants = [ "hyprland-session.target" ];
+    };
+    Service = {
+      Environment = [
+        "DISPLAY=:0"
+        "WAYLAND_DISPLAY=wayland-1"
+        "XDG_CURRENT_DESKTOP=Hyprland"
+        "XDG_SESSION_TYPE=wayland"
+      ];
+    };
+  };
 }

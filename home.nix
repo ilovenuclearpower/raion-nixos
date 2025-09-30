@@ -71,6 +71,7 @@ in
     adwaita-icon-theme      # Good fallback coverage
     hicolor-icon-theme      # Essential fallback
     tela-icon-theme         # Modern geometric design
+    nerd-fonts.iosevka
 
     # Programming environments.
 

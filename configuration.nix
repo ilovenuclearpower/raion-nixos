@@ -123,6 +123,10 @@
   
   # Enable Polkit for authentication
   security.polkit.enable = true;
+
+  # Gotta have nerdfonts
+  fonts.fontDir.enable = true;
+  fonts.fontconfig.enable = true;
   
   # Define a user account. Don't forget to set a password with 'passwd'.
   users.users.hik = {
