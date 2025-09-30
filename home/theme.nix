@@ -112,7 +112,6 @@
     
     # ONLY enable GTK theming for now - nothing else
     targets = {
-      waybar.enable = true;
       kitty.enable = true;
       gtk.enable = true;
       firefox.enable = true;

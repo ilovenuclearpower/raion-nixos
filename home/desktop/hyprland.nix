@@ -15,8 +15,6 @@
       
       # Startup applications
       exec-once = [
-        "waybar"
-        "dunst"
         "swww init"
         "kitty --class=btop -e btop"
         "kitty --class=ncspot -e ncspot"

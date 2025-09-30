@@ -20,6 +20,7 @@
           # Your existing configuration files
           ./configuration.nix
           ./hardware-configuration.nix
+          { nixpkgs.config.allowUnfree = true; }
           
           # Enable flakes system-wide
           ({ pkgs, ... }: {

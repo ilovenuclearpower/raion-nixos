@@ -7,6 +7,7 @@ in
   ./home/programs/nvim.nix
   ./home/programs/ncspot.nix
   ./home/desktop/hyprland.nix
+  ./home/desktop/hyprpanel.nix
   ./home/development.nix
   ./home/theme.nix
   ];
@@ -65,6 +66,11 @@ in
     tofi
     home-manager
 
+    # Icon themes for hyprpanel
+    papirus-icon-theme      # Sharp, clean icons
+    adwaita-icon-theme      # Good fallback coverage
+    hicolor-icon-theme      # Essential fallback
+    tela-icon-theme         # Modern geometric design
 
     # Programming environments.
 

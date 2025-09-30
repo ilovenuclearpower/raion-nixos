@@ -7,7 +7,6 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./modules/nvidia.nix
-      ./shells/claude.nix
     ];
   
   # Bootloader.
@@ -83,8 +82,6 @@
 
     # App picker/launcher
     rofi-wayland
-    # Status bar
-    waybar
     # Web browser
     firefox
     # Text editor
