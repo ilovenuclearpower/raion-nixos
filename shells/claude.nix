@@ -7,6 +7,8 @@ let
       # Add your development tools here
       nodejs
       python3
+      nodePackages.typescript
+      nodePackages."@anthropic-ai/claude-code"
       # claude-code (when available)
     ];
     shellHook = ''
