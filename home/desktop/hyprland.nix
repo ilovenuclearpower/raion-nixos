@@ -2,6 +2,7 @@
 
 {
   # Hyprland configuration
+
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
@@ -17,6 +18,9 @@
         "waybar"
         "dunst"
         "swww init"
+        "kitty --class=btop -e btop"
+        "kitty --class=ncspot -e ncspot"
+        "hyprpaper"
       ];
       
       # Input configuration

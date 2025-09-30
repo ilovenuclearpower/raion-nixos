@@ -21,6 +21,7 @@
     pyright
     nodePackages.typescript-language-server
     nodePackages.vscode-langservers-extracted
+    nodePackages.typescript
     lua-language-server
 
 

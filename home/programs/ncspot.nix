@@ -9,24 +9,24 @@ in
   ];
 
   # ncspot configuration
-  home.file.".config/ncspot/config.toml".text = ''
-    [theme]
-    background = "#1e1e1e"
-    primary = "#ffffff"
-    secondary = "#888888"
-    title = "#61dafb"
-    playing = "#98c379"
-    playing_selected = "#98c379"
-    playing_bg = "#2d3748"
-    highlight = "#ffffff"
-    highlight_bg = "#4a5568"
-    error = "#e06c75"
-    error_bg = "#1e1e1e"
-    statusbar = "#2d3748"
-    statusbar_progress = "#61dafb"
-    statusbar_bg = "#1a202c"
-    cmdline = "#ffffff"
-    cmdline_bg = "#2d3748"
-    search_match = "#e5c07b"
-  '';
+home.file.".config/ncspot/config.toml".text = ''
+  [theme]
+  background = "${config.lib.stylix.colors.base00}"
+  primary = "${config.lib.stylix.colors.base05}"
+  secondary = "${config.lib.stylix.colors.base04}"
+  title = "${config.lib.stylix.colors.base0D}"
+  playing = "${config.lib.stylix.colors.base0B}"
+  playing_selected = "${config.lib.stylix.colors.base0B}"
+  playing_bg = "${config.lib.stylix.colors.base01}"
+  highlight = "${config.lib.stylix.colors.base0A}"
+  highlight_bg = "${config.lib.stylix.colors.base02}"
+  error = "${config.lib.stylix.colors.base08}"
+  error_bg = "${config.lib.stylix.colors.base01}"
+  statusbar = "${config.lib.stylix.colors.base04}"
+  statusbar_progress = "${config.lib.stylix.colors.base0C}"
+  statusbar_bg = "${config.lib.stylix.colors.base01}"
+  cmdline = "${config.lib.stylix.colors.base05}"
+  cmdline_bg = "${config.lib.stylix.colors.base01}"
+  search_match = "${config.lib.stylix.colors.base00}"
+'';
 }

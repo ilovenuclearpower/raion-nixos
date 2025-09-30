@@ -11,11 +11,11 @@
     stylix = { url = "github:danth/stylix/release-25.05"; inputs.nixpkgs.follows = "nixpkgs"; };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs: {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        specialArgs = { inherit inputs; };
+        specialArgs = { inherit inputs; unstable = import nixpkgs-unstable { system = "x86_64-linux"; config.allowUnfree = true; };};
         modules = [
           # Your existing configuration files
           ./configuration.nix

@@ -21,7 +21,6 @@ in
   # Session variables for dark mode
   home.sessionVariables = {
     # GTK applications
-    GTK_THEME = "Adwaita:dark";
     
     
     # General dark mode preference
@@ -35,13 +34,6 @@ in
   };
 
   # Your existing GTK config
-  gtk = {
-    enable = true;
-    theme = {
-      name = "adwaita-dark";
-      package = pkgs.gnome-themes-extra;
-    };
-  };
 
   qt = {
     enable = true;
@@ -58,6 +50,7 @@ in
 
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
+  programs.kitty.enable = true;
   
 
   # User packages
@@ -70,6 +63,7 @@ in
     neofetch
     tree
     tofi
+    home-manager
 
 
     # Programming environments.

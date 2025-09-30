@@ -1,7 +1,7 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
-{ config, pkgs, ... }:
+{ config, pkgs, unstable, ... }:
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -13,13 +13,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   
-  # Hyprland configuration
-#  programs.hyprland = {
-#    enable = true;
-#    withUWSM = true;
-#    xwayland.enable = true;
-#  };
-
 
   # Allow proprietary software
   nixpkgs.config.allowUnfree = true;
@@ -44,6 +37,9 @@
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
+    package = pkgs.kdePackages.sddm;
+    theme = "sddm-astronaut-theme";
+    extraPackages = with pkgs; [kdePackages.qtmultimedia kdePackages.qtvirtualkeyboard kdePackages.qtsvg];
   };
 
   services.flatpak.enable = true;
@@ -83,6 +79,7 @@
   
   # System packages
   environment.systemPackages = with pkgs; [
+
     # App picker/launcher
     rofi-wayland
     # Status bar
@@ -92,7 +89,6 @@
     # Text editor
     neovim
     # Terminal emulator (useful for Hyprland)
-    kitty
     # File manager
     nautilus
     # Notification daemon
@@ -111,6 +107,10 @@
     git
     # menubar
     tofi
+    hyprpaper
+    (sddm-astronaut.override  {
+        embeddedTheme = "hyprland_kath";
+      })
   ];
   
   # Enable sound
