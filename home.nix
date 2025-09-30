@@ -72,6 +72,7 @@ in
     hicolor-icon-theme      # Essential fallback
     tela-icon-theme         # Modern geometric design
     nerd-fonts.iosevka
+    discordo
 
     # Programming environments.
 

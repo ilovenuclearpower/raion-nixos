@@ -89,8 +89,6 @@
     # Terminal emulator (useful for Hyprland)
     # File manager
     nautilus
-    # Notification daemon
-    dunst
     # Screenshot utility
     grim
     slurp
