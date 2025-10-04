@@ -25,7 +25,7 @@
     enable = true;
     
     # Disable auto-detection of targets
-    autoEnable = false;
+    autoEnable = true;
     image = wallpaper;
     polarity = "dark";
     

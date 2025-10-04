@@ -176,13 +176,26 @@
       # Theme configuration for sharp neon aesthetic  
       theme = {
         font = {
-          name = "Iosevka Nerd Font";
+          name = config.stylix.fonts.sansSerif.name; 
           size = "18px";
+        };
+
+        button.default = {
+          background = "#${config.lib.stylix.colors.base01}";
+          text = "#${config.lib.stylix.colors.base05}";
+        };
+
+        notification = {
+          background = "#${config.lib.stylix.colors.base01}";
+          text = "#${config.lib.stylix.colors.base05}";
         };
         
         bar = {
           transparent = true;
           opacity = 95;
+          background = "#${config.lib.stylix.colors.base00}";
+          foreground = "#${config.lib.stylix.colors.base05}";
+
           
           # Sharp neon aesthetic
           menus_opacity = 0.95;
@@ -206,49 +219,6 @@
           
           padding = 6;
         };
-        
-        # Disable matugen automatic theming
-        matugen = false;
-        
-        # Neon cyberpunk theme with proper key structure
-        "theme.bar.menus.menu.notifications.scrollbar.color" = "#00ffff";
-        "theme.bar.menus.menu.notifications.pager.label" = "#ffffff";
-        "theme.bar.menus.menu.notifications.card.tint" = "#111111";
-        "theme.bar.menus.menu.notifications.background" = "#000000";
-        "theme.bar.menus.menu.notifications.border" = "#00ff88";
-        "theme.bar.menus.menu.notifications.label" = "#00ffff";
-        "theme.bar.menus.menu.notifications.time" = "#ff00ff";
-        "theme.bar.menus.menu.notifications.close_button.background" = "#ff0066";
-        "theme.bar.menus.menu.notifications.close_button.label" = "#ffffff";
-        
-        "theme.bar.menus.menu.powermenu.confirmation.background" = "#000000";
-        "theme.bar.menus.menu.powermenu.confirmation.color" = "#00ffff";
-        "theme.bar.menus.menu.powermenu.confirmation.border" = "#ff0066";
-        "theme.bar.menus.menu.powermenu.buttons.shutdown" = "#ff4400";
-        "theme.bar.menus.menu.powermenu.buttons.logout" = "#ffff00";
-        "theme.bar.menus.menu.powermenu.buttons.reboot" = "#0088ff";
-        "theme.bar.menus.menu.powermenu.buttons.sleep" = "#8800ff";
-        
-        "theme.bar.menus.menu.dashboard.background" = "#000000";
-        "theme.bar.menus.menu.dashboard.card.tint" = "#111111";
-        "theme.bar.menus.menu.dashboard.card.border" = "#00ff88";
-        "theme.bar.menus.menu.dashboard.directories.color" = "#00ffff";
-        "theme.bar.menus.menu.dashboard.time.color" = "#ff00ff";
-        "theme.bar.menus.menu.dashboard.date.color" = "#ffffff";
-        "theme.bar.menus.menu.dashboard.stats.label" = "#00ffff";
-        "theme.bar.menus.menu.dashboard.stats.value" = "#00ff88";
-        
-        "theme.bar.background" = "#000000";
-        "theme.bar.buttons.style" = "default";
-        "theme.bar.buttons.workspaces.hover" = "#00ff8844";
-        "theme.bar.buttons.workspaces.active" = "#00ff88";
-        "theme.bar.buttons.workspaces.available" = "#333333";
-        "theme.bar.buttons.windowtitle.label" = "#00ffff";
-        "theme.bar.buttons.volume.label" = "#0088ff";
-        "theme.bar.buttons.network.label" = "#ff0066";
-        "theme.bar.buttons.bluetooth.label" = "#8800ff";
-        "theme.bar.buttons.clock.label" = "#ff00ff";
-        "theme.bar.buttons.notifications.label" = "#ffff00";
       };
       
       # OSD settings
