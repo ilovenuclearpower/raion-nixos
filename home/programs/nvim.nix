@@ -179,6 +179,8 @@
         enable = true;
         settings.options.theme = "auto";  # Use Stylix theme
       };
+
+      web-devicons.enable = true;
       
       bufferline.enable = true;
       which-key.enable = true;

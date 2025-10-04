@@ -52,7 +52,7 @@
 	    home-manager.backupFileExtension = "backup";
             
             # Pass inputs to home-manager
-            home-manager.extraSpecialArgs = { inherit inputs; wallpaper = ./wallpapers/rainbowumbrella.png; };
+            home-manager.extraSpecialArgs = { inherit inputs; wallpaper = ./wallpapers/autumn.png; };
             
             # Add nixvim module to home-manager
             home-manager.sharedModules = [ inputs.nixvim.homeManagerModules.nixvim ];

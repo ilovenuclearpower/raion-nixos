@@ -47,6 +47,7 @@
     
     # ONLY enable GTK theming for now - nothing else
     targets = {
+      hyprland.hyprpaper.enable = true;
       kitty.enable = true;
       gtk.enable = true;
       firefox.enable = true;
@@ -54,6 +55,7 @@
       qt.enable = true;
       qutebrowser.enable = true;
       hyprland.enable = true;
+      hyprpaper.enable = true;
       nixvim = {
         enable = true;
         transparentBackground = {
