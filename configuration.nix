@@ -81,8 +81,6 @@
   # System packages
   environment.systemPackages = with pkgs; [
 
-    # App picker/launcher
-    rofi-wayland
     # Web browser
     firefox
     # Text editor
@@ -102,7 +100,6 @@
     mise
     git
     # menubar
-    tofi
     hyprpaper
     (sddm-astronaut.override  {
         embeddedTheme = "pixel_sakura_static";

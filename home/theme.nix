@@ -7,18 +7,20 @@
   ];
 
   home.packages = with pkgs; [
-    hyprcursor
-    catppuccin-cursors
+    papirus-icon-theme
+    adwaita-icon-theme
   ];
 
-  home.pointerCursor = {
-    gtk.enable = true;
-    x11.enable = true;
-    name = "Catppuccin-Mocha-Sky";
-    size = 24;
-    package = pkgs.catppuccin-cursors.mochaSky;
-
+  gtk = {
+    enable = true;
+    iconTheme = {
+      name = "Papirus-Dark";
+      package = pkgs.papirus-icon-theme;
     };
+  };
+
+
+
   # Minimal Stylix configuration
   stylix = {
 
@@ -32,8 +34,22 @@
     # Minimal font configuration
     fonts = {
       monospace = {
-        package = pkgs.jetbrains-mono;
-        name = "JetBrains Mono";
+        package = pkgs.nerd-fonts.iosevka;
+        name = "Iosevka Nerd Font Mono";
+      };
+      sansSerif = {
+        package = pkgs.nerd-fonts.iosevka;
+        name = "Iosevka Nerd Font";
+      };
+      serif = {
+        package = pkgs.nerd-fonts.iosevka;
+        name = "Iosevka Nerd Font";
+      };
+      sizes = {
+        applications = 16;
+        desktop = 14;
+        popups = 14;
+        terminal = 14;
       };
     };
 
@@ -45,17 +61,20 @@
 
     };
     
+    
     # ONLY enable GTK theming for now - nothing else
     targets = {
       hyprland.hyprpaper.enable = true;
       kitty.enable = true;
       gtk.enable = true;
+      gtk.flatpakSupport.enable = false;
       firefox.enable = true;
       btop.enable = true;
       qt.enable = true;
       qutebrowser.enable = true;
       hyprland.enable = true;
       hyprpaper.enable = true;
+      waybar.enable = true;
       nixvim = {
         enable = true;
         transparentBackground = {

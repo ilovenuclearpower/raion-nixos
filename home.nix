@@ -7,9 +7,10 @@ in
   ./home/programs/nvim.nix  # Use simplified nixvim config
   ./home/programs/ncspot.nix
   ./home/desktop/hyprland.nix
-  ./home/desktop/hyprpanel.nix
+  ./home/desktop/waybar.nix
   ./home/development.nix
   ./home/theme.nix
+  inputs.hyprcursor-phinger.homeManagerModules.hyprcursor-phinger
   ];
   # Home Manager needs a bit of information about you and the paths it should manage
   home.username = "hik";
@@ -32,6 +33,7 @@ in
     
     # Terminal colors
     COLORTERM = "truecolor";
+    
   };
 
 
@@ -44,6 +46,8 @@ in
   programs.home-manager.enable = true;
   programs.kitty.enable = true;
   programs.btop.enable = true;
+  programs.rofi.enable = true;
+  programs.hyprcursor-phinger.enable = true;
   
 
   # User packages
@@ -55,7 +59,6 @@ in
     # Additional utilities
     neofetch
     tree
-    tofi
     home-manager
 
     # Icon themes for hyprpanel
@@ -67,11 +70,10 @@ in
     discordo
 
 
-
     # Idle and screen lock management (compatible with SDDM)
     hypridle
-    hyprlock
     qutebrowser-qt5
+    hyprcursor
 
 
   ];
@@ -88,15 +90,6 @@ in
       padding-top = 35;
       result-spacing = 25;
       num-results = 5;
-      font = "monospace";
-      background-color = "#1B1D1E";
-      border-color = "#F92672";
-      text-color = "#F8F8F2";
-      prompt-color = "#F92672";
-      placeholder-color = "#DEDEDE";
-      input-color = "#F8F8F2";
-      default-result-color = "#F8F8F2";
-      selection-color = "#F92672";
     };
   };
 
@@ -134,17 +127,8 @@ in
           on-resume = "brightnessctl -r";
         }
         {
-          timeout = 300;  # 5 minutes  
+          timeout = 1500;  # 5 minutes  
           on-timeout = "loginctl lock-session";
-        }
-        {
-          timeout = 380;  # 6.3 minutes
-          on-timeout = "hyprctl dispatch dpms off";
-          on-resume = "hyprctl dispatch dpms on";
-        }
-        {
-          timeout = 1800; # 30 minutes
-          on-timeout = "systemctl suspend";
         }
       ];
     };
@@ -160,51 +144,6 @@ in
         hide_cursor = true;
         no_fade_in = false;
       };
-
-      background = [
-        {
-          path = "~/Pictures/wallpapers/rainbowumbrella.png";
-        }
-      ];
-
-      input-field = [
-        {
-          size = "200, 50";
-          position = "0, -200";
-          monitor = "";
-          dots_center = true;
-          fade_on_empty = false;
-          font_color = "rgb(255, 255, 255)";
-          inner_color = "rgba(150, 50, 200, 0.3)";
-          outer_color = "rgba(200, 100, 180, 0.6)";
-          outline_thickness = 3;
-          placeholder_text = "Password...";
-          shadow_passes = 2;
-        }
-      ];
-
-      label = [
-        {
-          monitor = "";
-          text = "Hi $USER";
-          color = "rgb(200, 200, 200)";
-          font_size = 55;
-          font_family = "Noto Sans";
-          position = "0, 160";
-          halign = "center";
-          valign = "center";
-        }
-        {
-          monitor = "";
-          text = "$TIME";
-          color = "rgb(200, 200, 200)";
-          font_size = 90;
-          font_family = "Noto Sans";
-          position = "0, 0";
-          halign = "center";
-          valign = "center";
-        }
-      ];
     };
   };
 }

@@ -18,6 +18,7 @@
         "kitty --class=btop -e btop"
         "kitty --class=ncspot -e ncspot"
         "hypridle"
+        "waybar"
       ];
       
       # Input configuration
@@ -129,6 +130,7 @@
         # Screenshot bindings
         ", Print, exec, grim -g \"$(slurp)\" - | wl-copy"
         "$mainMod, Print, exec, grim - | wl-copy"
+        "$mainMod SHIFT, Print, exec, grim ~/$(date +'%Y%m%d_%Hh%Mm%Ss_grim.png')"
         
         # Volume controls
         ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"

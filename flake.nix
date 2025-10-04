@@ -12,6 +12,8 @@
     nixvim = {
       url = "github:nix-community/nixvim/nixos-25.05";
     };
+    rose-pine-hyprcursor = { url = "github:ndom91/rose-pine-hyprcursor/v0.3.2"; };
+    hyprcursor-phinger.url = "github:jappie3/hyprcursor-phinger";
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs: {
@@ -44,7 +46,6 @@
           # Home Manager as NixOS module
           home-manager.nixosModules.home-manager
           {
-            home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             # Your actual username
             home-manager.users.hik = import ./home.nix;
@@ -52,7 +53,7 @@
 	    home-manager.backupFileExtension = "backup";
             
             # Pass inputs to home-manager
-            home-manager.extraSpecialArgs = { inherit inputs; wallpaper = ./wallpapers/autumn.png; };
+            home-manager.extraSpecialArgs = { inherit inputs; wallpaper = ./wallpapers/rainbowumbrella.png; };
             
             # Add nixvim module to home-manager
             home-manager.sharedModules = [ inputs.nixvim.homeManagerModules.nixvim ];
