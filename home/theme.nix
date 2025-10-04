@@ -1,4 +1,4 @@
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, wallpaper, ... }:
 
 {
   # Import Stylix home-manager module (using new module path)
@@ -87,13 +87,11 @@
   stylix = {
 
     enable = true;
-    image = "~/Pictures/wallpapers/rainbowumbrella.png"
-    
-    # Use a cyberpunk/neon theme
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
     
     # Disable auto-detection of targets
     autoEnable = false;
+    image = wallpaper;
+    polarity = "dark";
     
     # Minimal font configuration
     fonts = {

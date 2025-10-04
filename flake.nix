@@ -24,7 +24,7 @@
           ./configuration.nix
           ./hardware-configuration.nix
           { nixpkgs.config.allowUnfree = true; }
-          
+
           # Enable flakes system-wide
           ({ pkgs, ... }: {
             nix = {
@@ -52,7 +52,7 @@
 	    home-manager.backupFileExtension = "backup";
             
             # Pass inputs to home-manager
-            home-manager.extraSpecialArgs = { inherit inputs; };
+            home-manager.extraSpecialArgs = { inherit inputs; wallpaper = ./wallpapers/rainbowumbrella.png; };
             
             # Add nixvim module to home-manager
             home-manager.sharedModules = [ inputs.nixvim.homeManagerModules.nixvim ];
