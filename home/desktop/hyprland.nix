@@ -19,11 +19,13 @@
         "kitty --class=btop -e btop"
         "kitty --class=ncspot -e ncspot"
         "hyprpaper"
+        "hypridle"
       ];
       
       # Input configuration
       input = {
         kb_layout = "us";
+        kb_options = "caps:escape";
         follow_mouse = 1;
         touchpad = {
           natural_scroll = false;
@@ -33,23 +35,19 @@
       
       # General settings
       general = {
-        gaps_in = 5;
-        gaps_out = 20;
-        border_size = 2;
-        "col.active_border" = "rgba(33ccffee) rgba(00ff99ee) 45deg";
-        "col.inactive_border" = "rgba(595959aa)";
+        gaps_in = 3;
+        gaps_out = 8;
+        border_size = 3;
         layout = "dwindle";
         allow_tearing = false;
       };
       
       # Decoration settings
       decoration = {
-        rounding = 10;
+        rounding = 0;
         blur = {
-          enabled = true;
-          size = 3;
-          passes = 1;
-        };
+            enabled = false;
+          };
       };
       
       # Animation settings
@@ -138,6 +136,9 @@
         ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
         ", XF86AudioMute, exec, wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+        
+        # Screen lock
+        "SUPER, L, exec, loginctl lock-session"
       ];
       
       # Mouse bindings

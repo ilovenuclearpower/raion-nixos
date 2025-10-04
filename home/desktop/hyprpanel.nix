@@ -1,11 +1,9 @@
 { config, pkgs, ... }:
-
 {
-  # HyprPanel is now built into home-manager, no need for imports
-  
   # Enable HyprPanel via built-in home-manager module
   programs.hyprpanel = {
     enable = true;
+    
     
     # Don't assert notification daemons since we might use dunst
     dontAssertNotificationDaemons = true;
@@ -13,19 +11,20 @@
     # Explicitly enable systemd service
     systemd.enable = true;
     
-    # Maximalist cyberpunk configuration for wide monitors
+    # Correct configuration structure that matches config.json format
     settings = {
-      # Panel layout optimized for wide displays
-      layout = {
-        "*" = {
+      # Bar layouts - THIS is the correct path structure
+      bar.layouts = {
+        # Configure for monitor "0" (primary monitor)
+        # Use "*" or specific monitor numbers like "0", "1", "2"
+        "0" = {
           left = [
             "dashboard"
             "workspaces" 
             "windowtitle"
-            "media"
           ];
           middle = [
-            "clock"
+            "clock"  # This will now actually show clock in the middle
           ];
           right = [
             "volume"
@@ -37,270 +36,260 @@
         };
       };
       
-      # Panel appearance - compact height for wide monitor
-      panel = {
-        height = 32;
-        position = "top";
-        # Fully transparent background - let objects show through
-        backgroundColor = "rgba(0, 0, 0, 0.1)";
-        borderRadius = 0;  # Sharp, no rounded corners
-        margins = {
-          top = 0;
-          bottom = 0;
-          left = 0;
-          right = 0;
+      # Bar appearance settings
+      bar.floating = false;  # Set to true for floating bar
+      bar.position = "top";
+      bar.layer = "overlay";
+      
+      # Bar spacing and padding
+      bar.spacing = 8;
+      bar.padding = 8;
+      bar.margin = 0;
+      
+      # Launcher/Dashboard icon
+      bar.launcher.icon = "";  # Arch icon, change if desired
+      bar.launcher.autoDetectIcon = false;
+      
+      # Workspaces configuration
+      bar.workspaces.show_icons = true;
+      bar.workspaces.show_numbered = true;
+      bar.workspaces.numbered_active_indicator = "highlight";
+      bar.workspaces.workspaces = 10;
+      bar.workspaces.spacing = 4;
+      bar.workspaces.monochrome = false;
+      bar.workspaces.hideUnoccupied = false;
+      
+      # Window title
+      bar.windowtitle.label = true;
+      bar.windowtitle.icon = true;
+      bar.windowtitle.labelMaxLength = 80;
+      
+      # Media player module
+      bar.media.show_active_only = true;
+      bar.media.truncation = true;
+      bar.media.truncation_size = 60;
+      
+      # Volume module
+      bar.volume.label = true;
+      bar.volume.raiseMaximumVolume = false;
+      
+      # Network module  
+      bar.network.label = true;
+      bar.network.truncation = true;
+      bar.network.truncation_size = 25;
+      
+      # Bluetooth module
+      bar.bluetooth.label = true;
+      
+      # Systray
+      bar.systray.spacing = 8;
+      
+      # Clock module (in the bar itself)
+      bar.clock.format = "%H:%M:%S";
+      bar.clock.showIcon = true;
+      bar.clock.showTime = true;
+      bar.clock.icon = "";
+      
+      # Notifications
+      bar.notifications.show_total = true;
+      
+      # Menu configurations
+      menus.clock = {
+        time = {
+          military = true;
+          hideSeconds = false;  # Show seconds in menu
         };
-        border = {
-          width = 1;
-          color = "rgba(0, 255, 136, 0.3)";  # Subtle neon green border
+        weather = {
+          enabled = false;  # Disable if no API key
+          unit = "metric";
         };
       };
       
-      # Cyberpunk color theme
+      menus.dashboard = {
+        powermenu.avatar = {
+          image = "";  # Path to avatar image if desired
+          name = "User";
+        };
+        directories.enabled = true;
+        directories.left.directory1 = {
+          label = "󰚝  Documents";
+          command = "bash -c 'xdg-open $HOME/Documents'";
+        };
+        directories.left.directory2 = {
+          label = "󰚝  Downloads";
+          command = "bash -c 'xdg-open $HOME/Downloads'";
+        };
+        directories.right.directory1 = {
+          label = "󰚝  Config";
+          command = "bash -c 'xdg-open $HOME/.config'";
+        };
+        directories.right.directory2 = {
+          label = "󰚝  Projects";
+          command = "bash -c 'xdg-open $HOME/Projects'";
+        };
+        stats.enable_gpu = true;
+        
+        shortcuts.left.shortcut1 = {
+          icon = "󰀜";  # Browser/web icon
+          tooltip = "Firefox";
+          command = "firefox";
+        };
+        shortcuts.left.shortcut2 = {
+          icon = "󰎆";  # Music/audio icon (for ncspot)
+          tooltip = "ncspot";
+          command = "kitty -e ncspot";
+        };
+        shortcuts.left.shortcut3 = {
+          icon = "󰏗";  # Terminal icon
+          tooltip = "Terminal";
+          command = "kitty";
+        };
+        shortcuts.left.shortcut4 = {
+          icon = "󰉋";  # Folder icon
+          tooltip = "File Manager";
+          command = "nautilus";
+        };
+        
+        shortcuts.right.shortcut1 = {
+          icon = "󰊗";  # Chart/stats icon (perfect for btop)
+          tooltip = "System Monitor";
+          command = "kitty -e btop";
+        };
+        shortcuts.right.shortcut2 = {
+          icon = "󰈙";  # Text editor icon
+          tooltip = "Text Editor";
+          command = "kitty -e nvim";
+        };
+        shortcuts.right.shortcut3 = {
+          icon = "󰒓";  # Settings/gear icon
+          tooltip = "System Settings";
+          command = "kitty -e sudo nixos-rebuild switch --flake /etc/nixos";
+        };
+        shortcuts.right.shortcut4 = {
+          icon = "󰕾";  # Audio/volume icon
+          tooltip = "Audio Control";
+          command = "pavucontrol";
+        };
+      };
+      
+      
+      # Theme configuration for sharp neon aesthetic  
       theme = {
-        # Main neon colors
-        primary = "#00ff88";      # Neon green
-        secondary = "#ff0066";    # Hot pink  
-        accent = "#0088ff";       # Cyber blue
-        warning = "#ffaa00";      # Neon orange
-        error = "#ff4040";        # Neon red
-        success = "#00ff44";      # Bright green
+        font = {
+          name = "Iosevka Nerd Font";
+          size = "18px";
+        };
         
-        # Text colors
-        textPrimary = "#ffffff";   # White
-        textSecondary = "#cccccc"; # Light gray
+        bar = {
+          transparent = true;
+          opacity = 95;
+          
+          # Sharp neon aesthetic
+          menus_opacity = 0.95;
+          
+          buttons_opacity = 100;
+          buttons_monochrome = false;
+          buttons_y_margins = 0;
+          buttons_spacing = 2;
+          buttons_radius = 0;  # Sharp corners
+          
+          scaling = 100;
+          outer_spacing = 4;
+          
+          # Border settings  
+          border_width = 2;
+          border_radius = 0;  # Sharp corners for neon look
+          
+          margin_top = 0;
+          margin_bottom = 0;
+          margin_sides = 0;
+          
+          padding = 6;
+        };
         
-        # Background colors
-        background = "#0a0a0a";    # Dark
-        surface = "#1a1a1a";       # Darker surface
+        # Disable matugen automatic theming
+        matugen = false;
+        
+        # Neon cyberpunk theme with proper key structure
+        "theme.bar.menus.menu.notifications.scrollbar.color" = "#00ffff";
+        "theme.bar.menus.menu.notifications.pager.label" = "#ffffff";
+        "theme.bar.menus.menu.notifications.card.tint" = "#111111";
+        "theme.bar.menus.menu.notifications.background" = "#000000";
+        "theme.bar.menus.menu.notifications.border" = "#00ff88";
+        "theme.bar.menus.menu.notifications.label" = "#00ffff";
+        "theme.bar.menus.menu.notifications.time" = "#ff00ff";
+        "theme.bar.menus.menu.notifications.close_button.background" = "#ff0066";
+        "theme.bar.menus.menu.notifications.close_button.label" = "#ffffff";
+        
+        "theme.bar.menus.menu.powermenu.confirmation.background" = "#000000";
+        "theme.bar.menus.menu.powermenu.confirmation.color" = "#00ffff";
+        "theme.bar.menus.menu.powermenu.confirmation.border" = "#ff0066";
+        "theme.bar.menus.menu.powermenu.buttons.shutdown" = "#ff4400";
+        "theme.bar.menus.menu.powermenu.buttons.logout" = "#ffff00";
+        "theme.bar.menus.menu.powermenu.buttons.reboot" = "#0088ff";
+        "theme.bar.menus.menu.powermenu.buttons.sleep" = "#8800ff";
+        
+        "theme.bar.menus.menu.dashboard.background" = "#000000";
+        "theme.bar.menus.menu.dashboard.card.tint" = "#111111";
+        "theme.bar.menus.menu.dashboard.card.border" = "#00ff88";
+        "theme.bar.menus.menu.dashboard.directories.color" = "#00ffff";
+        "theme.bar.menus.menu.dashboard.time.color" = "#ff00ff";
+        "theme.bar.menus.menu.dashboard.date.color" = "#ffffff";
+        "theme.bar.menus.menu.dashboard.stats.label" = "#00ffff";
+        "theme.bar.menus.menu.dashboard.stats.value" = "#00ff88";
+        
+        "theme.bar.background" = "#000000";
+        "theme.bar.buttons.style" = "default";
+        "theme.bar.buttons.workspaces.hover" = "#00ff8844";
+        "theme.bar.buttons.workspaces.active" = "#00ff88";
+        "theme.bar.buttons.workspaces.available" = "#333333";
+        "theme.bar.buttons.windowtitle.label" = "#00ffff";
+        "theme.bar.buttons.volume.label" = "#0088ff";
+        "theme.bar.buttons.network.label" = "#ff0066";
+        "theme.bar.buttons.bluetooth.label" = "#8800ff";
+        "theme.bar.buttons.clock.label" = "#ff00ff";
+        "theme.bar.buttons.notifications.label" = "#ffff00";
       };
       
-      # Module configurations for maximalist experience
-      modules = {
-        # Workspaces - key for wide monitor workflow
-        workspaces = {
-          showNumbered = true;
-          showIcons = true;
-          activeWorkspaceColor = "#00ff88";
-          inactiveWorkspaceColor = "#333333";  # Higher contrast
-          urgentWorkspaceColor = "#ff0066";
-          spacing = 2;  # Tighter spacing
-          workspaceCount = 10;  # Utilize wide screen real estate
-          borderRadius = 2;
-          activeBorderWidth = 2;
-          activeBorderColor = "#00ff88";
-          iconTheme = "Papirus-Dark";
-        };
-        
-        # Clock - central cyberpunk element
-        clock = {
-          format = "%H:%M:%S";     # Include seconds for cyberpunk feel
-          dateFormat = "%Y-%m-%d"; # ISO date format
-          showDate = true;
-          color = "#00ff88";
-          fontSize = 14;
-          fontWeight = "bold";
-          backgroundColor = "rgba(0, 255, 136, 0.1)";
-          borderRadius = 2;
-          padding = 8;
-          border = {
-            width = 1;
-            color = "rgba(0, 255, 136, 0.5)";
-          };
-        };
-        
-        # Volume with visual feedback
-        volume = {
-          showPercentage = true;
-          color = "#0088ff";
-          mutedColor = "#ff4040";
-          showIcon = true;
-          iconTheme = "Papirus-Dark";  # Use sharp icon theme
-          backgroundColor = "rgba(0, 136, 255, 0.15)";
-          borderRadius = 2;  # Minimal rounding
-        };
-        
-        # Network with speed info for maximalist data
-        network = {
-          showSpeed = true;         # Show network speeds
-          showSignalStrength = true;
-          color = "#ff0066";
-          disconnectedColor = "#666666";
-          maxLength = 30;          # Use wide screen space
-        };
-        
-        # Bluetooth status
-        bluetooth = {
-          showStatus = true;
-          showConnectedDevices = true;
-          color = "#aa00ff";       # Purple
-          maxLength = 25;
-          iconTheme = "Papirus-Dark";
-          backgroundColor = "rgba(170, 0, 255, 0.15)";
-          borderRadius = 2;
-        };
-        
-        # Media player - important for cyberpunk aesthetic
-        media = {
-          showArtwork = true;
-          showControls = true;
-          maxLength = 60;          # Take advantage of wide monitor
-          color = "#ffaa00";
-          showProgress = true;
-          iconTheme = "Papirus-Dark";
-          backgroundColor = "rgba(255, 170, 0, 0.15)";
-          borderRadius = 2;
-          fontWeight = "bold";
-        };
-        
-        # System tray
-        systray = {
-          spacing = 2;  # Tighter spacing for sharp look
-          iconSize = 20;  # Slightly larger for better visibility
-          showTooltips = true;
-          iconTheme = "Papirus-Dark";
-          backgroundColor = "rgba(255, 255, 255, 0.05)";
-          borderRadius = 2;
-        };
-        
-        # Notifications
-        notifications = {
-          showCount = true;
-          color = "#ff6600";
-          maxNotifications = 5;    # More notifications on wide screen
-          iconTheme = "Papirus-Dark";
-          backgroundColor = "rgba(255, 102, 0, 0.15)";
-          borderRadius = 2;
-          urgentColor = "#ff0000";
-          urgentBackgroundColor = "rgba(255, 0, 0, 0.2)";
-        };
-        
-        # Dashboard/launcher - Custom NixOS-focused layout
-        dashboard = {
-          color = "#ffffff";       # Clean white
-          showIcon = true;
-          iconTheme = "Papirus-Dark";
-          backgroundColor = "rgba(0, 0, 0, 0.8)";
-          borderRadius = 2;
-          iconSize = 10;
-          # Custom dashboard entries for NixOS
-          entries = [
-            {
-              name = "Terminal";
-              icon = "utilities-terminal";
-              command = "kitty";
-            }
-            {
-              name = "Firefox";
-              icon = "firefox";
-              command = "firefox";
-            }
-            {
-              name = "File Manager";
-              icon = "folder";
-              command = "nautilus";
-            }
-            {
-              name = "Text Editor";
-              icon = "text-editor";
-              command = "nvim";
-            }
-            {
-              name = "System Monitor";
-              icon = "utilities-system-monitor";
-              command = "kitty -e btop";
-            }
-            {
-              name = "Audio Control";
-              icon = "multimedia-volume-control";
-              command = "pavucontrol";
-            }
-            {
-              name = "Network";
-              icon = "network-workgroup";
-              command = "nm-connection-editor";
-            }
-            {
-              name = "Settings";
-              icon = "preferences-system";
-              command = "nixos-rebuild switch --flake /etc/nixos";
-            }
-          ];
-          layout = {
-            columns = 8;
-            rows = 1;
-            padding = 5;
-            spacing = 3;
-          };
-          position = "top-left";
-          width = 640;
-          height = 60;
-        };
-        
-        # Window title - utilize horizontal space
-        windowtitle = {
-          maxLength = 80;          # Wide monitor advantage
-          color = "#ffffff";
-          showIcon = true;
-          truncate = "end";
-        };
-        
-        # CPU usage monitor
-        cpu = {
-          showPercentage = true;
-          showTemperature = true;
-          color = "#ff6600";
-          highUsageColor = "#ff0000";
-          backgroundColor = "rgba(255, 102, 0, 0.15)";
-          borderRadius = 2;
-          updateInterval = 1000;
-        };
-
-        # Battery (if applicable)
-      };
+      # OSD settings
+      osd.enable = true;
+      osd.position = "top";
+      osd.orientation = "horizontal";
+      osd.duration = 2000;
+      osd.radius = 0;  # Sharp corners
+      osd.monitor = 0;
+      osd.location = "center";
       
-      # Enable animations for cyberpunk feel
-      animations = {
-        enabled = true;
-        duration = 200;
-        curve = "ease-out";
-      };
+      # Notifications settings
+      notifications.position = "top right";
+      notifications.active_monitor = false;
+      notifications.monitor = 0;
+      notifications.timeout = 5000;
+      notifications.cache_actions = true;
       
-      # Maximalist features
-      features = {
-        showTooltips = true;
-        autoHide = false;        # Always visible on wide monitor
-        clickThrough = false;
-        layer = "top";
-        exclusive = true;        # Reserve space
-      };
+      # Wallpaper settings (if using swww)
+      wallpaper.enable = false;
       
-      # OSD (On-Screen Display) settings
-      osd = {
-        enable = true;
-        position = "center";
-        timeout = 2000;
-        backgroundColor = "rgba(10, 10, 10, 0.9)";
-        textColor = "#00ff88";
+      # Custom styling to force neon colors
+      customModules.updates = {
+        pollingInterval = 1440000;
       };
     };
   };
   
-  # HyprPanel will be started automatically via systemd service
-  
   # Ensure hyprpanel starts after Hyprland
   systemd.user.services.hyprpanel = {
     Unit = {
-      After = [ "hyprland-session.target" ];
-      Wants = [ "hyprland-session.target" ];
+      After = [ "graphical-session.target" ];
+      PartOf = [ "graphical-session.target" ];
     };
     Service = {
-      Environment = [
-        "DISPLAY=:0"
-        "WAYLAND_DISPLAY=wayland-1"
-        "XDG_CURRENT_DESKTOP=Hyprland"
-        "XDG_SESSION_TYPE=wayland"
-      ];
+      ExecStart = "${pkgs.hyprpanel}/bin/hyprpanel";
+      Restart = "on-failure";
+      RestartSec = 3;
+    };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
     };
   };
 }

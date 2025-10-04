@@ -4,7 +4,7 @@ unstable = inputs.nixpkgs-unstable.legacyPackages.${pkgs.system};
 in
 {
   imports = [
-  ./home/programs/nvim.nix
+  ./home/programs/nvim.nix  # Use simplified nixvim config
   ./home/programs/ncspot.nix
   ./home/desktop/hyprland.nix
   ./home/desktop/hyprpanel.nix
@@ -34,15 +34,6 @@ in
     COLORTERM = "truecolor";
   };
 
-  # Your existing GTK config
-
-  qt = {
-    enable = true;
-    platformTheme.name = "adwaita"; 
-    style = {
-      name = "adwaita-dark";
-    };
-  };
 
   home.stateVersion = "25.05"; # Match your NixOS version
 
@@ -52,6 +43,7 @@ in
   # Let Home Manager install and manage itself
   programs.home-manager.enable = true;
   programs.kitty.enable = true;
+  programs.btop.enable = true;
   
 
   # User packages
@@ -59,8 +51,8 @@ in
     # Wayland clipboard utilities
     wl-clipboard
     
+    # Text editor
     # Additional utilities
-    btop
     neofetch
     tree
     tofi
@@ -74,7 +66,13 @@ in
     nerd-fonts.iosevka
     discordo
 
-    # Programming environments.
+
+
+    # Idle and screen lock management (compatible with SDDM)
+    hypridle
+    hyprlock
+    qutebrowser-qt5
+
 
   ];
 
@@ -117,7 +115,96 @@ in
       export EDITOR=nvim
     '';
   };
-  programs.neovim = {
+
+  # Hypridle configuration for idle management
+  services.hypridle = {
     enable = true;
+    settings = {
+      general = {
+        after_sleep_cmd = "hyprctl dispatch dpms on";
+        before_sleep_cmd = "loginctl lock-session";
+        ignore_dbus_inhibit = false;
+        lock_cmd = "pidof hyprlock || hyprlock";
+      };
+      
+      listener = [
+        {
+          timeout = 150;  # 2.5 minutes
+          on-timeout = "brightnessctl -s set 10";
+          on-resume = "brightnessctl -r";
+        }
+        {
+          timeout = 300;  # 5 minutes  
+          on-timeout = "loginctl lock-session";
+        }
+        {
+          timeout = 380;  # 6.3 minutes
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on";
+        }
+        {
+          timeout = 1800; # 30 minutes
+          on-timeout = "systemctl suspend";
+        }
+      ];
+    };
+  };
+
+  # Hyprlock configuration for screen locking
+  programs.hyprlock = {
+    enable = true;
+    settings = {
+      general = {
+        disable_loading_bar = true;
+        grace = 30;
+        hide_cursor = true;
+        no_fade_in = false;
+      };
+
+      background = [
+        {
+          path = "~/Pictures/wallpapers/rainbowumbrella.png";
+        }
+      ];
+
+      input-field = [
+        {
+          size = "200, 50";
+          position = "0, -200";
+          monitor = "";
+          dots_center = true;
+          fade_on_empty = false;
+          font_color = "rgb(255, 255, 255)";
+          inner_color = "rgba(150, 50, 200, 0.3)";
+          outer_color = "rgba(200, 100, 180, 0.6)";
+          outline_thickness = 3;
+          placeholder_text = "Password...";
+          shadow_passes = 2;
+        }
+      ];
+
+      label = [
+        {
+          monitor = "";
+          text = "Hi $USER";
+          color = "rgb(200, 200, 200)";
+          font_size = 55;
+          font_family = "Noto Sans";
+          position = "0, 160";
+          halign = "center";
+          valign = "center";
+        }
+        {
+          monitor = "";
+          text = "$TIME";
+          color = "rgb(200, 200, 200)";
+          font_size = 90;
+          font_family = "Noto Sans";
+          position = "0, 0";
+          halign = "center";
+          valign = "center";
+        }
+      ];
+    };
   };
 }

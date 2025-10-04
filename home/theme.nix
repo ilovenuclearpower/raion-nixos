@@ -87,9 +87,10 @@
   stylix = {
 
     enable = true;
+    image = "~/Pictures/wallpapers/rainbowumbrella.png"
     
-    # Use a simple base16 theme
-    base16Scheme = "${pkgs.base16-schemes}/share/themes/synth-midnight-dark.yaml";
+    # Use a cyberpunk/neon theme
+    base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
     
     # Disable auto-detection of targets
     autoEnable = false;
@@ -103,10 +104,10 @@
     };
 
     opacity = {
-      applications = 0.9;
+      applications = 0.85;
       desktop = 1.0;
-      popups = 0.95;
-      terminal = 0.9;
+      popups = 0.98;
+      terminal = 0.85;
 
     };
     
@@ -116,10 +117,22 @@
       gtk.enable = true;
       firefox.enable = true;
       btop.enable = true;
+      qt.enable = true;
+      qutebrowser.enable = true;
+      hyprland.enable = true;
+      nixvim = {
+        enable = true;
+        transparentBackground = {
+          main = true;
+          numberLine = true;
+          signColumn = true;
+        };
+      };
       neovim = {
         enable = true;
         transparentBackground = {
             main = true;
+            numberLine = true;
             signColumn = true;
           };
     };

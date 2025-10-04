@@ -74,6 +74,7 @@
   services.xserver.xkb = {
     layout = "us";
     variant = "";
+    options = "caps:escape";
   };
   
   
@@ -85,7 +86,6 @@
     # Web browser
     firefox
     # Text editor
-    neovim
     # Terminal emulator (useful for Hyprland)
     # File manager
     nautilus
@@ -105,7 +105,7 @@
     tofi
     hyprpaper
     (sddm-astronaut.override  {
-        embeddedTheme = "hyprland_kath";
+        embeddedTheme = "pixel_sakura_static";
       })
   ];
   
