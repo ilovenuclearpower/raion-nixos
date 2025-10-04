@@ -15,10 +15,8 @@
       
       # Startup applications
       exec-once = [
-        "swww init"
         "kitty --class=btop -e btop"
         "kitty --class=ncspot -e ncspot"
-        "hyprpaper"
         "hypridle"
       ];
       
