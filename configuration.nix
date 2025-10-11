@@ -104,6 +104,7 @@
     (sddm-astronaut.override  {
         embeddedTheme = "pixel_sakura_static";
       })
+    # Clipboard
     wl-clipboard
     cliphist
   ];
