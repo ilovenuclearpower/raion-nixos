@@ -104,6 +104,7 @@
     (sddm-astronaut.override  {
         embeddedTheme = "pixel_sakura_static";
       })
+
     # Clipboard
     wl-clipboard
     cliphist
@@ -133,6 +134,11 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [];
   };
+
+  environment.etc."containers/registries.conf".text  = ''
+    [registries.search]
+    registries = ['docker.io', 'registry.gitlab.com']
+  '';
   
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
