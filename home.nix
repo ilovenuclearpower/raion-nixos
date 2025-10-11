@@ -54,7 +54,6 @@ in
   # User packages
   home.packages = with pkgs; [
     # Wayland clipboard utilities
-    wl-clipboard
     
     # Text editor
     # Additional utilities

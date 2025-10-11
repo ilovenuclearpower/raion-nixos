@@ -104,6 +104,7 @@
     (sddm-astronaut.override  {
         embeddedTheme = "pixel_sakura_static";
       })
+    wl-clipboard
   ];
   
   # Enable sound
