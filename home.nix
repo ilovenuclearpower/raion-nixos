@@ -60,6 +60,7 @@ in
     neofetch
     tree
     home-manager
+    (pkgs.callPackage ./packages/codecrafters {} )
 
     # Icon themes for hyprpanel
     papirus-icon-theme      # Sharp, clean icons
@@ -97,8 +98,8 @@ in
   programs.git = {
     enable = true;
     userName = "hik";
-    userEmail = "hik@aboveaverage.space";
     userEmail = "burrito@aboveaverage.space";
+    
     extraConfig = {
       init.defaultBranch = "main";
       pull.rebase = true;
@@ -139,13 +140,17 @@ in
       
       listener = [
         {
-          timeout = 150;  # 2.5 minutes
-          on-timeout = "brightnessctl -s set 10";
-          on-resume = "brightnessctl -r";
+          timeout = 1200;  # 20 minutes  
+          on-timeout = "loginctl lock-session";
         }
         {
-          timeout = 1500;  # 5 minutes  
-          on-timeout = "loginctl lock-session";
+          timeout = 1500;
+          on-timeout = "hyprctl dispatch dpms off";
+          on-resume = "hyprctl dispatch dpms on && brightnessctrl -r";
+        }
+        {
+          timeout = 1800; # Almost an hour
+          on-timeout = "systemctl suspend";
         }
       ];
     };
