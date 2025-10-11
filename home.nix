@@ -48,6 +48,7 @@ in
   programs.btop.enable = true;
   programs.rofi.enable = true;
   programs.hyprcursor-phinger.enable = true;
+  programs.cava.enable = true;
   
 
   # User packages
