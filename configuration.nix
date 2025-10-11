@@ -105,6 +105,7 @@
         embeddedTheme = "pixel_sakura_static";
       })
     wl-clipboard
+    cliphist
   ];
   
   # Enable sound
