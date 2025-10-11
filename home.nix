@@ -98,6 +98,23 @@ in
     enable = true;
     userName = "hik";
     userEmail = "hik@aboveaverage.space";
+    userEmail = "burrito@aboveaverage.space";
+    extraConfig = {
+      init.defaultBranch = "main";
+      pull.rebase = true;
+      push.autoSetupRemote = true;
+      core.editor = "nvim";
+      diff.tool = "nvim";
+      merge.tool = "nvim";
+    };
+    
+    aliases = {
+      st = "status";
+      co = "checkout";
+      br = "branch";
+      ci = "commit";
+      lg = "log --oneline --graph --decorate";
+    };
   };
 
   # Shell configuration (optional)
