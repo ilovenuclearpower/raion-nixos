@@ -12,9 +12,8 @@ stdenv.mkDerivation rec {
     url = "https://github.com/codecrafters-io/cli/releases/download/v${version}/v${version}_linux_${
       if stdenv.hostPlatform.isAarch64 then "arm64" else "amd64"
     }.tar.gz";
-    sha256 = lib.fakeSha256; # Nix will tell you the real hash on first build
-  };
-
+    sha256 = "sha256-Wn1Riidy/U9DI/gLbqwzhgW4OuEBpQiVaEDSTDPQSM8=";
+};
   nativeBuildInputs = lib.optional stdenv.isLinux autoPatchelfHook;
 
   sourceRoot = ".";

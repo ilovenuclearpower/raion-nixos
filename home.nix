@@ -3,6 +3,7 @@ let
 unstable = inputs.nixpkgs-unstable.legacyPackages.${pkgs.system};
 in
 {
+  nixpkgs.config.allowUnfree = true;
   imports = [
   ./home/programs/nvim.nix  # Use simplified nixvim config
   ./home/programs/ncspot.nix
