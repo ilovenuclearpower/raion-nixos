@@ -2,11 +2,8 @@
 { config, pkgs, ... }:
 
 {
-  # Enable OpenGL
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
   };
 
   # Load nvidia driver for Xorg and Wayland
@@ -20,7 +17,7 @@
     # Enable this if you have graphical corruption issues or application crashes after waking
     # up from sleep. This fixes it by saving the entire VRAM memory to /tmp/ instead 
     # of just the bare essentials.
-    powerManagement.enable = false;
+    powerManagement.enable = true;
 
     # Fine-grained power management. Turns off GPU when not in use.
     # Experimental and only works on modern Nvidia GPUs (Turing or newer).
@@ -33,7 +30,7 @@
     # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
     # Only available from driver 515.43.04+
     # Currently alpha-quality/buggy, so false is currently the recommended setting.
-    open = false;
+    open = true;
 
     # Enable the Nvidia settings menu,
     # accessible via `nvidia-settings`.
@@ -64,12 +61,14 @@
 
   # Optional: If you want to use Wayland with Nvidia (experimental)
   # Uncomment the following:
-  # environment.sessionVariables = {
-  #   # Enable Wayland support
-  #   GBM_BACKEND = "nvidia-drm";
-  #   __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-  #   WLR_NO_HARDWARE_CURSORS = "1";
-  # };
+   environment.sessionVariables = {
+     # Enable Wayland support
+     GBM_BACKEND = "nvidia-drm";
+     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+     WLR_NO_HARDWARE_CURSORS = "1";
+    NIXOS_OZONE_WL = "1";
+    NVD_BACKEND = "direct";
+   };
 
   # Optional: Gaming optimizations
   # Uncomment if you're using this system for gaming:
