@@ -62,6 +62,7 @@ in
     tree
     home-manager
     (pkgs.callPackage ./packages/codecrafters {} )
+    (pkgs.callPackage ./packages/stmps {} )
 
     # Icon themes for hyprpanel
     papirus-icon-theme      # Sharp, clean icons
