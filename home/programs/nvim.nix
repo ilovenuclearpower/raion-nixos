@@ -22,11 +22,17 @@
       signcolumn = "yes";
       updatetime = 50;
       colorcolumn = "80";
+      clipboard = "unnamedplus";
     };
     
     # LazyVim-style key mappings
     globals.mapleader = " ";  # Space as leader key
     globals.maplocalleader = "\\";  # Backslash as local leader
+
+    # clipboard
+    clipboard = {
+      providers.wl-copy.enable = true;
+    };
     
     keymaps = [
       # Better up/down
@@ -122,7 +128,7 @@
       { mode = "n"; key = "<leader>fR"; action = "<cmd>FzfLua resume<cr>"; options.desc = "Resume"; }
       
       # Git
-      { mode = "n"; key = "<leader>gg"; action = "<cmd>FzfLua git_status<cr>"; options.desc = "Git Status"; }
+      { mode = "n"; key = "<leader>gg"; action = "<cmd>LazyGit<cr>"; options.desc = "Git Status"; }
       { mode = "n"; key = "<leader>gb"; action = "<cmd>FzfLua git_branches<cr>"; options.desc = "Git Branches"; }
       { mode = "n"; key = "<leader>gc"; action = "<cmd>FzfLua git_commits<cr>"; options.desc = "Git Commits"; }
       
@@ -173,6 +179,7 @@
     plugins = {
       # Core functionality
       lazy.enable = true;
+      lazygit.enable = true;
       
       # UI enhancements
       lualine = {
