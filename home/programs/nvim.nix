@@ -204,6 +204,7 @@
       fzf-lua.enable = true;
       flash.enable = true;
       noice.enable = true;
+      trouble.enable = true;
       
       # LSP and completion
       lsp = {
@@ -211,16 +212,13 @@
         servers = {
           lua_ls.enable = true;
           marksman.enable = true;
-          rust_analyzer = {
-            enable = true;
-            installCargo = false;  # Already installed via home.nix
-            installRustc = false;  # Already installed via home.nix
-          };
           pyright.enable = true;
           ts_ls.enable = true;
           yamlls.enable = true;
         };
       };
+
+      rustaceanvim.enable = true;
       
       # Completion
       cmp = {
@@ -258,7 +256,6 @@
       };
       
       # Additional plugins
-      trouble.enable = true;
       todo-comments.enable = true;
       persistence.enable = true;
     };
