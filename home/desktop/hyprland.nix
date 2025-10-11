@@ -17,8 +17,11 @@
       exec-once = [
         "kitty --class=btop -e btop"
         "kitty --class=ncspot -e ncspot"
+        "kitty --class=cava -e cava"
         "hypridle"
         "waybar"
+        "wl-paste --type text --watch cliphist store" # Cliphist store text
+        "wl-paste --type image --watch cliphist store" # Cliphist store images
       ];
       
       # Input configuration
@@ -85,11 +88,11 @@
         "$mainMod, C, killactive,"
         "$mainMod, M, exit,"
         "$mainMod, E, exec, nautilus"
-        "$mainMod, V, togglefloating,"
+        "$mainMod, F, togglefloating,"
         "$mainMod, R, exec, rofi -show drun"
         "$mainMod, P, pseudo,"
         "$mainMod, S, togglesplit,"
-	"$mainMod, F, exec, firefox"
+	      "$mainMod, B, exec, firefox"
         
         # Move focus with mainMod + arrow keys
         "$mainMod, left, movefocus, l"
@@ -139,6 +142,9 @@
         
         # Screen lock
         "SUPER, L, exec, loginctl lock-session"
+
+        # Clipboard
+        "$mainMod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
       ];
       
       # Mouse bindings
