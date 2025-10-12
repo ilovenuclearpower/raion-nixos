@@ -18,6 +18,7 @@
         "kitty --class=btop -e btop"
         "kitty --class=ncspot -e ncspot"
         "kitty --class=cava -e cava"
+        "kitty --class=stmp -e stmp"
         "hypridle"
         "waybar"
         "wl-paste --type text --watch cliphist store" # Cliphist store text
@@ -77,6 +78,10 @@
         "suppressevent maximize, class:.*"
         "float, class:(pavucontrol)"
         "float, class:(nautilus)"
+        "workspace 4 silent, class:^(btop)$"
+        "workspace 4 silent, class:^(cava)$"
+        "workspace 4 silent, class:^(stmp)$"
+        "workspace 4 silent, class:^(ncspot)$"
       ];
       
       # Keybindings
