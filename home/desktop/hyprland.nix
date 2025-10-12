@@ -150,6 +150,7 @@
 
         # Clipboard
         "$mainMod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy"
+        "$mainMod SHIFT, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy && wtype -M ctrl v -m ctrl"
       ];
       
       # Mouse bindings
