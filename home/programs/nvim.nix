@@ -146,10 +146,10 @@
       { mode = "n"; key = "<leader>cr"; action = "<cmd>lua vim.lsp.buf.rename()<cr>"; options.desc = "Rename"; }
       
       # Diagnostics
-      { mode = "n"; key = "<leader>xx"; action = "<cmd>TroubleToggle diagnostics<cr>"; options.desc = "Document Diagnostics (Trouble)"; }
-      { mode = "n"; key = "<leader>xX"; action = "<cmd>TroubleToggle workspace_diagnostics<cr>"; options.desc = "Workspace Diagnostics (Trouble)"; }
-      { mode = "n"; key = "<leader>xL"; action = "<cmd>TroubleToggle loclist<cr>"; options.desc = "Location List (Trouble)"; }
-      { mode = "n"; key = "<leader>xQ"; action = "<cmd>TroubleToggle quickfix<cr>"; options.desc = "Quickfix List (Trouble)"; }
+      { mode = "n"; key = "<leader>xx"; action = "<cmd>Trouble diagnostics<cr>"; options.desc = "Document Diagnostics (Trouble)"; }
+      { mode = "n"; key = "<leader>xX"; action = "<cmd>Trouble workspace_diagnostics<cr>"; options.desc = "Workspace Diagnostics (Trouble)"; }
+      { mode = "n"; key = "<leader>xL"; action = "<cmd>Trouble loclist<cr>"; options.desc = "Location List (Trouble)"; }
+      { mode = "n"; key = "<leader>xQ"; action = "<cmd>Trouble quickfix<cr>"; options.desc = "Quickfix List (Trouble)"; }
       { mode = "n"; key = "[d"; action = "<cmd>lua vim.diagnostic.goto_prev()<cr>"; options.desc = "Prev Diagnostic"; }
       { mode = "n"; key = "]d"; action = "<cmd>lua vim.diagnostic.goto_next()<cr>"; options.desc = "Next Diagnostic"; }
       { mode = "n"; key = "[e"; action = "<cmd>lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.ERROR})<cr>"; options.desc = "Prev Error"; }
@@ -224,21 +224,43 @@
       cmp = {
         enable = true;
         settings = {
+          completion = {
+            completeopt = "menu,menuone,noinsert";
+          };
+          mapping = {
+            "<C-b>" = "cmp.mapping.scroll_docs(-4)";
+            "<C-f>" = "cmp.mapping.scroll_docs(4)";
+            "<C-Space>" = "cmp.mapping.complete()";
+            "<C-e>" = "cmp.mapping.abort()";
+            "<CR>" = "cmp.mapping.confirm({ select = true })";
+            "<Tab>" = "cmp.mapping(function(fallback) if cmp.visible() then cmp.select_next_item() else fallback() end end, {'i', 's'})";
+            "<S-Tab>" = "cmp.mapping(function(fallback) if cmp.visible() then cmp.select_prev_item() else fallback() end end, {'i', 's'})";
+          };
           sources = [
-            { name = "nvim_lsp"; }
-            { name = "nvim_lsp_signature_help"; }
-            { name = "crates"; }
-            { name = "buffer"; }
-            { name = "path"; }
-            { name = "luasnip"; }
+            { name = "nvim_lsp"; priority = 1000; }
+            { name = "nvim_lsp_signature_help"; priority = 1000; }
+            { name = "crates"; priority = 800; }
+            { name = "luasnip"; priority = 750; }
+            { name = "buffer"; priority = 500; }
+            { name = "path"; priority = 250; }
           ];
+          window = {
+            completion = {
+              winhighlight = "Normal:Pmenu,FloatBorder:Pmenu,Search:None";
+              col_offset = -3;
+              side_padding = 0;
+            };
+          };
+          formatting = {
+            fields = [ "kind" "abbr" "menu" ];
+          };
         };
       };
       
       # Rust-specific plugins
-      crates-nvim = {
+      crates = {
         enable = true;
-        extraOptions = {
+        settings = {
           completion.cmp.enabled = true;
           completion.crates.enabled = true;
           lsp.enabled = true;
@@ -273,6 +295,7 @@
       # Additional plugins
       todo-comments.enable = true;
       persistence.enable = true;
+      lspkind.enable = true;
     };
     
     # Extra plugins - all the packages needed for nixvim plugins
