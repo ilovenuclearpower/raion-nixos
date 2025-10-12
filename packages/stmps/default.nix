@@ -3,20 +3,24 @@
 , fetchFromGitHub
 , pkg-config
 , mpv
+, libGL
+, xorg
+, mesa
+, libglvnd
 }:
 
 buildGoModule rec {
   pname = "stmps";
-  version = "1.3.0";
+  version = "0.0.2";
 
   src = fetchFromGitHub {
     owner = "spezifisch";
     repo = "stmps";
     rev = "v${version}";
-    hash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+    hash = "sha256-KpyIxPyXghCJL+5awTJGvyXgzQ8dBgGZJu9Z+tXohw0=";
   };
 
-  vendorHash = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=";
+  vendorHash = "sha256-53Oat/48PtOXtITxU5j1VmHy0vCB6UzyqjDzkfZFrYI=";
 
   nativeBuildInputs = [
     pkg-config
@@ -24,6 +28,8 @@ buildGoModule rec {
 
   buildInputs = [
     mpv
+    libglvnd.dev
+    xorg.libX11
   ];
 
   ldflags = [
