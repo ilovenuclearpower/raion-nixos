@@ -108,6 +108,7 @@
     # Clipboard
     wl-clipboard
     cliphist
+    wtype
   ];
   
   # Enable sound
