@@ -146,7 +146,7 @@
       { mode = "n"; key = "<leader>cr"; action = "<cmd>lua vim.lsp.buf.rename()<cr>"; options.desc = "Rename"; }
       
       # Diagnostics
-      { mode = "n"; key = "<leader>xx"; action = "<cmd>TroubleToggle<cr>"; options.desc = "Document Diagnostics (Trouble)"; }
+      { mode = "n"; key = "<leader>xx"; action = "<cmd>TroubleToggle diagnostics<cr>"; options.desc = "Document Diagnostics (Trouble)"; }
       { mode = "n"; key = "<leader>xX"; action = "<cmd>TroubleToggle workspace_diagnostics<cr>"; options.desc = "Workspace Diagnostics (Trouble)"; }
       { mode = "n"; key = "<leader>xL"; action = "<cmd>TroubleToggle loclist<cr>"; options.desc = "Location List (Trouble)"; }
       { mode = "n"; key = "<leader>xQ"; action = "<cmd>TroubleToggle quickfix<cr>"; options.desc = "Quickfix List (Trouble)"; }
@@ -226,10 +226,25 @@
         settings = {
           sources = [
             { name = "nvim_lsp"; }
+            { name = "nvim_lsp_signature_help"; }
+            { name = "crates"; }
             { name = "buffer"; }
             { name = "path"; }
             { name = "luasnip"; }
           ];
+        };
+      };
+      
+      # Rust-specific plugins
+      crates-nvim = {
+        enable = true;
+        extraOptions = {
+          completion.cmp.enabled = true;
+          completion.crates.enabled = true;
+          lsp.enabled = true;
+          lsp.actions = true;
+          lsp.completion = true;
+          lsp.hover = true;
         };
       };
       
