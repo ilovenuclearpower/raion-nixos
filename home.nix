@@ -37,11 +37,6 @@ in
     
   };
 
-  programs.steam = {
-  	enable = true;
-	remotePlay.openFirewall = true;
-	dedicatedServer.openFirewall = true;
-  };
 
 
   home.stateVersion = "25.05"; # Match your NixOS version
@@ -66,6 +61,9 @@ in
     # Additional utilities
     neofetch
     tree
+    youtube-tui
+    yt-dlp
+    mpv
     home-manager
     (pkgs.callPackage ./packages/codecrafters {} )
     (pkgs.callPackage ./packages/stmps {} )
@@ -83,6 +81,9 @@ in
     hypridle
     qutebrowser-qt5
     hyprcursor
+
+    ## Terminal spreadsheet calculator
+    sc-im
 
 
   ];

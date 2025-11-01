@@ -1,4 +1,4 @@
-# Edit this configuration file to define what should be installed on
+#.drivero Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
 { config, pkgs, unstable, ... }:
@@ -34,6 +34,12 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  programs.steam = {
+  	enable = true;
+	remotePlay.openFirewall = true;
+	dedicatedServer.openFirewall = true;
+  };
+
   services.xserver = { 
     enable = true;
     videoDrivers = ["amdgpu"];
@@ -64,7 +70,20 @@
   };
 
   boot.initrd.kernelModules = ["amdgpu"]; 
-  hardware.graphics = {enable = true; enable32Bit = true;};
+  hardware.graphics = {
+    enable = true; 
+    enable32Bit = true;
+    extraPackages = with pkgs; [
+      mesa
+      amdvlk
+    ];
+    extraPackages32 = with pkgs; [
+      driversi686Linux.mesa
+    ];
+  };
+  hardware.amdgpu.overdrive.enable = true;
+  programs.gamemode.enable = true;
+
   # Set your time zone.
   time.timeZone = "America/Los_Angeles";
   
@@ -121,6 +140,9 @@
     wl-clipboard
     cliphist
     wtype
+
+    # Filesystem utils
+    gparted
   ];
   
   # Enable sound
@@ -152,6 +174,23 @@
     [registries.search]
     registries = ['docker.io', 'registry.gitlab.com']
   '';
+
+
+  ## Enable GameDrive Filesystem
+  fileSystems."/home/hik/data" = {
+    device = "/dev/disk/by-label/data";
+    fsType = "ext4";
+    options  = [ "defaults" ];
+  };
+
+  ## Enable NFS Share
+  fileSystems."/home/hik/rocinante" = {
+    device = "192.168.4.89:/mnt/cant/fileshare";
+    fsType = "nfs";
+    options = [ "x-systemd.automount" "noauto" ];
+  };
+  boot.supportedFilesystems = [ "nfs" ];
+
   
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
