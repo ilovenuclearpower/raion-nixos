@@ -11,7 +11,12 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+
+  # Enable ZFS support
+  boot.supportedFilesystems = [ "zfs" ];
   
+  # Optional but recommended: enable ZFS services
+  services.zfs.autoScrub.enable = true;
 
   # Allow proprietary software
   nixpkgs.config.allowUnfree = true;
