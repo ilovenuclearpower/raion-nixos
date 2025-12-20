@@ -362,5 +362,42 @@
     gnumake
     nodejs
     git
+
+    # Unity Neovim wrapper script
+    (pkgs.writeScriptBin "unity-nvim" ''
+      #!/usr/bin/env bash
+      
+      # Unity Neovim Wrapper Script
+      # This script launches Neovim with the user's nixvim configuration
+      # for use with Unity's external script editor
+      
+      # Set environment variables for proper terminal operation
+      export TERM=''${TERM:-xterm-256color}
+      export COLORTERM=''${COLORTERM:-truecolor}
+      
+      # Ensure we're using the user's shell environment
+      if [[ -f "$HOME/.bashrc" ]]; then
+          source "$HOME/.bashrc"
+      fi
+      
+      if [[ -f "$HOME/.profile" ]]; then
+          source "$HOME/.profile"
+      fi
+      
+      # Launch a terminal with Neovim
+      # Unity expects the editor to open in a new window
+      if command -v kitty >/dev/null 2>&1; then
+          exec kitty --title "Unity Neovim" nvim "$@"
+      elif command -v alacritty >/dev/null 2>&1; then
+          exec alacritty --title "Unity Neovim" -e nvim "$@"
+      elif command -v wezterm >/dev/null 2>&1; then
+          exec wezterm start --always-new-process -- nvim "$@"
+      elif command -v gnome-terminal >/dev/null 2>&1; then
+          exec gnome-terminal --title="Unity Neovim" -- nvim "$@"
+      else
+          # Fallback to nvim directly if no terminal emulator is found
+          exec nvim "$@"
+      fi
+    '')
   ];
 }

@@ -11,6 +11,8 @@ in
   ./home/desktop/waybar.nix
   ./home/development.nix
   ./home/theme.nix
+  ./home/programs/imagemagick.nix
+  ./home/programs/calibre.nix
   inputs.hyprcursor-phinger.homeManagerModules.hyprcursor-phinger
   ];
   # Home Manager needs a bit of information about you and the paths it should manage
