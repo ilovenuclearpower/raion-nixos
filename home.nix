@@ -39,6 +39,9 @@ in
     
   };
 
+  # Ensure systemd user environment is updated with Home Manager PATH
+  systemd.user.sessionVariables = config.home.sessionVariables;
+
 
 
   home.stateVersion = "25.05"; # Match your NixOS version
@@ -54,6 +57,119 @@ in
   programs.hyprcursor-phinger.enable = true;
   programs.cava.enable = true;
   
+
+  # Create custom desktop entry for NixVim
+  xdg.desktopEntries.nixvim = {
+    name = "NixVim";
+    genericName = "Text Editor";
+    comment = "Edit text files with NixVim configuration";
+    exec = "kitty nvim %F";
+    terminal = false;
+    icon = "nvim";
+    type = "Application";
+    categories = [ "Utility" "TextEditor" "Development" ];
+    mimeType = [
+      # General text files
+      "text/english"
+      "text/plain"
+      "text/x-makefile"
+      
+      # C/C++ files
+      "text/x-c++hdr"
+      "text/x-c++src" 
+      "text/x-chdr"
+      "text/x-csrc"
+      "text/x-c"
+      "text/x-c++"
+      
+      # Unity and .NET files
+      "text/x-csharp"
+      "application/x-csharp"
+      
+      # Web development
+      "text/html"
+      "text/css"
+      "text/javascript"
+      "application/javascript"
+      "application/json"
+      "text/xml"
+      
+      # Configuration files
+      "text/x-yaml"
+      "application/x-yaml"
+      "text/x-toml"
+      "application/x-toml"
+      
+      # Documentation
+      "text/markdown"
+      "text/x-markdown"
+      
+      # Python
+      "text/x-python"
+      "application/x-python"
+      
+      # Shell scripts
+      "application/x-shellscript"
+      "text/x-shellscript"
+      
+      # Other languages
+      "text/x-java"
+      "text/x-moc"
+      "text/x-pascal"
+      "text/x-tcl"
+      "text/x-tex"
+      "text/x-rust"
+      "text/x-go"
+      "text/x-lua"
+    ];
+  };
+
+  # Default applications for file types
+  xdg.mimeApps = {
+    enable = true;
+    defaultApplications = {
+      # C# files (Unity scripts)
+      "text/x-csharp" = [ "nixvim.desktop" ];
+      "application/x-csharp" = [ "nixvim.desktop" ];
+      
+      # Text and configuration files
+      "text/plain" = [ "nixvim.desktop" ];
+      "text/markdown" = [ "nixvim.desktop" ];
+      "text/x-markdown" = [ "nixvim.desktop" ];
+      
+      # Web development
+      "text/html" = [ "nixvim.desktop" ];
+      "text/css" = [ "nixvim.desktop" ];
+      "text/javascript" = [ "nixvim.desktop" ];
+      "application/javascript" = [ "nixvim.desktop" ];
+      "application/json" = [ "nixvim.desktop" ];
+      "text/xml" = [ "nixvim.desktop" ];
+      
+      # Configuration files
+      "text/x-yaml" = [ "nixvim.desktop" ];
+      "application/x-yaml" = [ "nixvim.desktop" ];
+      "text/x-toml" = [ "nixvim.desktop" ];
+      "application/x-toml" = [ "nixvim.desktop" ];
+      
+      # Programming languages
+      "text/x-python" = [ "nixvim.desktop" ];
+      "application/x-python" = [ "nixvim.desktop" ];
+      "text/x-c" = [ "nixvim.desktop" ];
+      "text/x-c++" = [ "nixvim.desktop" ];
+      "text/x-c++src" = [ "nixvim.desktop" ];
+      "text/x-c++hdr" = [ "nixvim.desktop" ];
+      "text/x-chdr" = [ "nixvim.desktop" ];
+      "text/x-csrc" = [ "nixvim.desktop" ];
+      "text/x-java" = [ "nixvim.desktop" ];
+      "text/x-rust" = [ "nixvim.desktop" ];
+      "text/x-go" = [ "nixvim.desktop" ];
+      "text/x-lua" = [ "nixvim.desktop" ];
+      
+      # Shell scripts
+      "application/x-shellscript" = [ "nixvim.desktop" ];
+      "text/x-shellscript" = [ "nixvim.desktop" ];
+    };
+  };
 
   # User packages
   home.packages = with pkgs; [
