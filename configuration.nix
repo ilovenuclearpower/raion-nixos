@@ -1,7 +1,7 @@
 #.drivero Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running 'nixos-help').
-{ config, pkgs, unstable, ... }:
+{ config, pkgs, lib, unstable, ... }:
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -11,9 +11,9 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  networking.hostId = "fe1daed0";
+  hardware.xone.enable = true;
 
-  # Enable ZFS support
-  boot.supportedFilesystems = [ "zfs" ];
   
   # Optional but recommended: enable ZFS services
   services.zfs.autoScrub.enable = true;
@@ -21,8 +21,8 @@
   # Allow proprietary software
   nixpkgs.config.allowUnfree = true;
   
-  # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # Use latest kernal with ZFS support
+  boot.kernelPackages = pkgs.linuxPackagesFor pkgs.linuxKernel.kernels.linux_6_12;
   boot.kernelParams = [ "amdgpu.dc=1"];
   
   networking.hostName = "nixos"; # Define your hostname.
@@ -66,7 +66,7 @@
 
   xdg.portal = {
   enable = true;
-  extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  extraPortals = [ pkgs.xdg-desktop-portal-gtk  pkgs.xdg-desktop-portal-hyprland pkgs.xdg-desktop-portal-gtk];
   };
 
   boot.initrd.kernelModules = ["amdgpu"]; 
@@ -143,6 +143,46 @@
 
     # Filesystem utils
     gparted
+
+    # Games Development w/ Unity
+    unityhub
+
+    # Unity Neovim wrapper script
+    (pkgs.writeScriptBin "unity-nvim" ''
+      #!/usr/bin/env bash
+      
+      # Unity Neovim Wrapper Script
+      # This script launches Neovim with the user's nixvim configuration
+      # for use with Unity's external script editor
+      
+      # Set environment variables for proper terminal operation
+      export TERM=''${TERM:-xterm-256color}
+      export COLORTERM=''${COLORTERM:-truecolor}
+      
+      # Ensure we're using the user's shell environment
+      if [[ -f "$HOME/.bashrc" ]]; then
+          source "$HOME/.bashrc"
+      fi
+      
+      if [[ -f "$HOME/.profile" ]]; then
+          source "$HOME/.profile"
+      fi
+      
+      # Launch a terminal with Neovim
+      # Unity expects the editor to open in a new window
+      if command -v kitty >/dev/null 2>&1; then
+          exec kitty --title "Unity Neovim" nvim "$@"
+      elif command -v alacritty >/dev/null 2>&1; then
+          exec alacritty --title "Unity Neovim" -e nvim "$@"
+      elif command -v wezterm >/dev/null 2>&1; then
+          exec wezterm start --always-new-process -- nvim "$@"
+      elif command -v gnome-terminal >/dev/null 2>&1; then
+          exec gnome-terminal --title="Unity Neovim" -- nvim "$@"
+      else
+          # Fallback to nvim directly if no terminal emulator is found
+          exec nvim "$@"
+      fi
+    '')
   ];
   
   # Enable sound
@@ -189,7 +229,7 @@
     fsType = "nfs";
     options = [ "x-systemd.automount" "noauto" ];
   };
-  boot.supportedFilesystems = [ "nfs" ];
+  boot.supportedFilesystems = [ "nfs"  "zfs" ];
 
   
   # This value determines the NixOS release from which the default
