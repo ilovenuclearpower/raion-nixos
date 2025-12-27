@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, unstable, ... }:
 
 let
   cfg = config.services.comfyui;
@@ -21,7 +21,7 @@ let
     # Copy ComfyUI source if not present
     if [ ! -d $APP_DIR ]; then
       echo 'Copying ComfyUI source...'
-      cp -r ${pkgs.comfyui}/opt/comfyui $APP_DIR
+      cp -r ${unstable.comfyui}/opt/comfyui $APP_DIR
       chmod -R u+w $APP_DIR
     fi
 
