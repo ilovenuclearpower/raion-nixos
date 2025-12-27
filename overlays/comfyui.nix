@@ -1,0 +1,60 @@
+final: prev: {
+  comfyui = prev.python3Packages.buildPythonApplication rec {
+    pname = "comfyui";
+    version = "0.3.75";
+    format = "other";
+
+    src = prev.fetchFromGitHub {
+      owner = "comfyanonymous";
+      repo = "ComfyUI";
+      rev = "v${version}";
+      hash = "sha256-T6O6UzcIcBsLWGHmgRnQB/EgsM5Mw2OTmMRq+BBtwsE=";
+    };
+
+    nativeBuildInputs = [ prev.makeWrapper prev.uv prev.python3Packages.pip ];
+
+    dontBuild = true;
+
+    propagatedBuildInputs = with prev.python3Packages; [
+      aiohttp
+      numpy
+      pillow
+      psutil
+      pyyaml
+      safetensors
+      scipy
+      torch
+      torchaudio
+      torchvision
+      tqdm
+      transformers
+      gitpython
+      opencv4
+      piexif
+      numba
+      gguf
+      pip
+      ultralytics
+      insightface
+      diffusers
+      huggingface-hub
+      accelerate
+      xformers
+    ] ++ [ prev.uv ];
+
+    installPhase = ''
+      runHook preInstall
+      mkdir -p $out/opt/comfyui
+      cp -r ./* $out/opt/comfyui/
+
+      runHook postInstall
+    '';
+
+    meta = with prev.lib; {
+      description = "The most powerful and modular diffusion model GUI, api and backend with a graph/nodes interface";
+      homepage = "https://github.com/comfyanonymous/ComfyUI";
+      license = licenses.gpl3Only;
+      platforms = platforms.all;
+    };
+  };
+}

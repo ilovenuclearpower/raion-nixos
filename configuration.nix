@@ -7,7 +7,8 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
-  
+  nixpkgs.overlays = [ ( import /overlays/comfyui.nix) ];  
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -18,9 +19,11 @@
   # Optional but recommended: enable ZFS services
   services.zfs.autoScrub.enable = true;
 
-  # Allow proprietary software
-  nixpkgs.config.allowUnfree = true;
-  
+  # NixPkgs Config - Allow Unfree, Support Rocm 
+  nixpkgs.config = {
+    allowUnfree = true;
+    rocmsupport = true;
+  }
   # Use latest kernal with ZFS support
   boot.kernelPackages = pkgs.linuxPackagesFor pkgs.linuxKernel.kernels.linux_6_12;
   boot.kernelParams = [ "amdgpu.dc=1"];
@@ -76,6 +79,7 @@
     extraPackages = with pkgs; [
       mesa
       amdvlk
+      rocmPackages.clr.icd
     ];
     extraPackages32 = with pkgs; [
       driversi686Linux.mesa
@@ -226,6 +230,11 @@
   ## Enable NFS Share
   fileSystems."/home/hik/rocinante" = {
     device = "192.168.4.89:/mnt/cant/fileshare";
+    fsType = "nfs";
+    options = [ "x-systemd.automount" "noauto" ];
+  };
+  fileSystems."/home/hik/calibre" = {
+    device = "192.168.4.89:/mnt/cant/apps/calibre";
     fsType = "nfs";
     options = [ "x-systemd.automount" "noauto" ];
   };

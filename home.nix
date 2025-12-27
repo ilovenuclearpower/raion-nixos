@@ -13,6 +13,7 @@ in
   ./home/theme.nix
   ./home/programs/imagemagick.nix
   ./home/programs/calibre.nix
+  ./home/programs/comfyui.nix
   inputs.hyprcursor-phinger.homeManagerModules.hyprcursor-phinger
   ];
   # Home Manager needs a bit of information about you and the paths it should manage
@@ -205,6 +206,12 @@ in
 
 
   ];
+
+# Enable comfyui service
+  services.comfyui = { 
+    enable = true;
+    port = 8188;
+  }
 
 # tofi configuration
   programs.tofi = {
