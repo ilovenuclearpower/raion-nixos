@@ -10,7 +10,22 @@
     settings = {
       # Monitor configuration
       monitor = [
-        ",preferred,auto,auto"
+        "DP-3,2560x1440@240,0x0,1"
+        "HDMI-A-1,3840x2160@60,2560x0,1"
+      ];
+
+      # Workspace to monitor binding
+      workspace = [
+        "1, monitor:DP-3, default:true"
+        "2, monitor:DP-3"
+        "3, monitor:DP-3"
+        "4, monitor:DP-3"
+        "5, monitor:DP-3"
+        "6, monitor:HDMI-A-1, default:true"
+        "7, monitor:HDMI-A-1"
+        "8, monitor:HDMI-A-1"
+        "9, monitor:HDMI-A-1"
+        "10, monitor:HDMI-A-1"
       ];
       
       # Startup applications
@@ -78,10 +93,12 @@
         "suppressevent maximize, class:.*"
         "float, class:(pavucontrol)"
         "float, class:(nautilus)"
-        "workspace 4 silent, class:^(btop)$"
-        "workspace 4 silent, class:^(cava)$"
-        "workspace 4 silent, class:^(stmp)$"
-        "workspace 4 silent, class:^(ncspot)$"
+        "workspace 6 silent, class:^(btop)$"
+        "workspace 6 silent, class:^(cava)$"
+        "workspace 6 silent, class:^(stmp)$"
+        "workspace 6 silent, class:^(ncspot)$"
+        "workspace 7, title:^(Steam Big Picture Mode)$"
+        "workspace 7, class:^(steam)$,title:^(Steam Big Picture Mode)$"
       ];
       
       # Keybindings

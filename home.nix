@@ -74,19 +74,19 @@ in
       "text/english"
       "text/plain"
       "text/x-makefile"
-      
+
       # C/C++ files
       "text/x-c++hdr"
-      "text/x-c++src" 
+      "text/x-c++src"
       "text/x-chdr"
       "text/x-csrc"
       "text/x-c"
       "text/x-c++"
-      
+
       # Unity and .NET files
       "text/x-csharp"
       "application/x-csharp"
-      
+
       # Web development
       "text/html"
       "text/css"
@@ -94,25 +94,25 @@ in
       "application/javascript"
       "application/json"
       "text/xml"
-      
+
       # Configuration files
       "text/x-yaml"
       "application/x-yaml"
       "text/x-toml"
       "application/x-toml"
-      
+
       # Documentation
       "text/markdown"
       "text/x-markdown"
-      
+
       # Python
       "text/x-python"
       "application/x-python"
-      
+
       # Shell scripts
       "application/x-shellscript"
       "text/x-shellscript"
-      
+
       # Other languages
       "text/x-java"
       "text/x-moc"
@@ -123,6 +123,31 @@ in
       "text/x-go"
       "text/x-lua"
     ];
+  };
+
+  # Steam desktop mode launcher
+  xdg.desktopEntries.steam = {
+    name = "Steam";
+    genericName = "Game Launcher";
+    comment = "Launch Steam in desktop mode";
+    exec = "steam-desktop";
+    terminal = false;
+    icon = "steam";
+    type = "Application";
+    categories = [ "Game" "Network" ];
+  };
+
+  # Steam Big Picture mode launcher
+  xdg.desktopEntries.steam-bigpicture = {
+    name = "Steam Big Picture";
+    genericName = "Game Launcher";
+    comment = "Launch Steam in Big Picture mode on workspace 7";
+    exec = "steam-bigpicture";
+    terminal = false;
+    icon = "steam";
+    type = "Application";
+    categories = [ "Game" "Network" ];
+    startupNotify = true;
   };
 
   # Default applications for file types
@@ -175,7 +200,7 @@ in
   # User packages
   home.packages = with pkgs; [
     # Wayland clipboard utilities
-    
+
     # Text editor
     # Additional utilities
     neofetch
@@ -204,6 +229,122 @@ in
     ## Terminal spreadsheet calculator
     sc-im
 
+    # Steam launcher scripts
+    (pkgs.writeShellScriptBin "steam-desktop" ''
+      #!/usr/bin/env bash
+      LOGFILE="/tmp/steam-desktop.log"
+      exec > "$LOGFILE" 2>&1
+
+      echo "=== Steam Desktop Launch $(date) ==="
+      echo "Starting script..."
+
+      # Change to home directory to avoid bwrap issues
+      cd "$HOME" || { echo "Failed to cd to HOME"; exit 1; }
+      echo "Changed to: $(pwd)"
+
+      # Kill Steam processes if running
+      if pgrep -x steam > /dev/null; then
+        echo "Steam is running, killing processes..."
+
+        # Get PIDs and kill directly (faster than pkill)
+        STEAM_PIDS=$(pgrep -x steam)
+        HELPER_PIDS=$(pgrep -x steamwebhelper)
+
+        echo "Found Steam PIDs: $STEAM_PIDS"
+        echo "Found Helper PIDs: $HELPER_PIDS"
+
+        # Kill each PID directly
+        for pid in $STEAM_PIDS; do
+          kill -9 "$pid" 2>/dev/null || true
+        done
+
+        for pid in $HELPER_PIDS; do
+          kill -9 "$pid" 2>/dev/null || true
+        done
+
+        # Wait for processes to actually terminate
+        echo "Waiting for processes to terminate..."
+        for i in {1..10}; do
+          if ! pgrep -x steam > /dev/null; then
+            echo "Steam processes terminated after $i seconds"
+            break
+          fi
+          sleep 1
+        done
+
+        # Extra wait for cleanup
+        sleep 2
+      else
+        echo "Steam not running, proceeding to launch..."
+      fi
+
+      # Launch Steam
+      echo "Launching Steam..."
+      ${pkgs.steam}/bin/steam &
+      STEAM_PID=$!
+      echo "Steam launched with PID: $STEAM_PID"
+
+      sleep 1
+      echo "Script complete"
+    '')
+
+    (pkgs.writeShellScriptBin "steam-bigpicture" ''
+      #!/usr/bin/env bash
+      LOGFILE="/tmp/steam-bigpicture.log"
+      exec > "$LOGFILE" 2>&1
+
+      echo "=== Steam Big Picture Launch $(date) ==="
+      echo "Starting script..."
+
+      # Change to home directory to avoid bwrap issues
+      cd "$HOME" || { echo "Failed to cd to HOME"; exit 1; }
+      echo "Changed to: $(pwd)"
+
+      # Kill Steam processes if running
+      if pgrep -x steam > /dev/null; then
+        echo "Steam is running, killing processes..."
+
+        # Get PIDs and kill directly (faster than pkill)
+        STEAM_PIDS=$(pgrep -x steam)
+        HELPER_PIDS=$(pgrep -x steamwebhelper)
+
+        echo "Found Steam PIDs: $STEAM_PIDS"
+        echo "Found Helper PIDs: $HELPER_PIDS"
+
+        # Kill each PID directly
+        for pid in $STEAM_PIDS; do
+          kill -9 "$pid" 2>/dev/null || true
+        done
+
+        for pid in $HELPER_PIDS; do
+          kill -9 "$pid" 2>/dev/null || true
+        done
+
+        # Wait for processes to actually terminate
+        echo "Waiting for processes to terminate..."
+        for i in {1..10}; do
+          if ! pgrep -x steam > /dev/null; then
+            echo "Steam processes terminated after $i seconds"
+            break
+          fi
+          sleep 1
+        done
+
+        # Extra wait for cleanup
+        sleep 2
+      else
+        echo "Steam not running, proceeding to launch..."
+      fi
+
+      # Launch Steam in Big Picture mode
+      echo "Launching Steam in Big Picture mode..."
+      ${pkgs.steam}/bin/steam -bigpicture &
+      STEAM_PID=$!
+      echo "Steam launched with PID: $STEAM_PID"
+
+      sleep 1
+      echo "Script complete"
+    '')
 
   ];
 
@@ -211,7 +352,7 @@ in
   services.comfyui = { 
     enable = true;
     port = 8188;
-  }
+  };
 
 # tofi configuration
   programs.tofi = {

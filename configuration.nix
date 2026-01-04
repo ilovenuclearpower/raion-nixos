@@ -7,7 +7,6 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
     ];
-  nixpkgs.overlays = [ ( import /overlays/comfyui.nix) ];  
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -23,7 +22,7 @@
   nixpkgs.config = {
     allowUnfree = true;
     rocmsupport = true;
-  }
+  };
   # Use latest kernal with ZFS support
   boot.kernelPackages = pkgs.linuxPackagesFor pkgs.linuxKernel.kernels.linux_6_12;
   boot.kernelParams = [ "amdgpu.dc=1"];
