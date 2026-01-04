@@ -14,6 +14,8 @@
   networking.hostId = "fe1daed0";
   hardware.xone.enable = true;
 
+  programs.gamescope.enable = true;
+
   
   # Optional but recommended: enable ZFS services
   services.zfs.autoScrub.enable = true;
@@ -40,6 +42,7 @@
   	enable = true;
 	remotePlay.openFirewall = true;
 	dedicatedServer.openFirewall = true;
+  gamescopeSession.enable = true;
   };
 
   services.xserver = { 

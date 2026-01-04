@@ -25,6 +25,7 @@
           # Your existing configuration files
           ./configuration.nix
           ./hardware-configuration.nix
+          ./modules/thrustmaster/wheel.nix
           { nixpkgs.config.allowUnfree = true; }
 
           # Enable flakes system-wide
